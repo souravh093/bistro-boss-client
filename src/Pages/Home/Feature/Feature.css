@@ -1,0 +1,5 @@
+.feature {
+    background-image: url('../../../assets/home/featured.jpg');
+    object-fit: cover;
+    background-repeat: no-repeat;
+}
