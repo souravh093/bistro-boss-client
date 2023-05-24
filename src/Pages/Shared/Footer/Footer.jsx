@@ -61,7 +61,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-      <div className="footer footer-center p-4 bg-neutral text-white">
+      <div className="footer border-t footer-center p-4 bg-neutral text-white">
         <div>
           <p>Copyright © 2023 - All right reserved by ACME Industries Ltd</p>
         </div>
