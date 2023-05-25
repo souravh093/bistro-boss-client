@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import googleLogo from "../../assets/icon/google.svg";
 import githubLogo from "../../assets/icon/github.svg";
 import {
@@ -6,8 +6,11 @@ import {
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Login = () => {
+  const { loginUser } = useContext(AuthContext);
   const [disable, setDisable] = useState(true);
   const captchaRef = useRef();
   const handleValidateCaptcha = () => {
@@ -26,7 +29,12 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+
+    loginUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => console.log(error.message));
   };
 
   return (
@@ -97,7 +105,6 @@ const Login = () => {
                 id="rememberPassword"
                 className="text-blue-500 rounded focus:ring-blue-500"
                 name="checkbox"
-                required
               />
               <label htmlFor="rememberPassword" className="text-gray-700 ml-2">
                 Remember me
@@ -110,10 +117,11 @@ const Login = () => {
             </div>
           </div>
           <button
-            className={`w-full ${disable && 'cursor-not-allowed hover:bg-blue-300 bg-blue-300'} bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400`}
+            className={`w-full ${
+              disable || 'bg-blue-500 hover:bg-blue-400'
+            } bg-blue-300 hover:bg-blue-300  text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400`}
             type="submit"
             disabled={disable}
-            
           >
             Sign In
           </button>
@@ -133,12 +141,12 @@ const Login = () => {
         </div>
         <div className="flex justify-center mt-6 text-gray-500">
           <span>Don not have an account?</span>
-          <a
-            href="#"
+          <Link
+            to="/register"
             className="text-blue-500 ml-1 hover:text-blue-700 font-semibold"
           >
             Register
-          </a>
+          </Link>
         </div>
       </div>
     </div>

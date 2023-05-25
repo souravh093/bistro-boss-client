@@ -5,8 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 const Root = () => {
     const location = useLocation();
-    const noHeaderFooter = location.pathname.includes('login')
-    console.log(location)
+    const noHeaderFooter = location.pathname.includes('login') || location.pathname.includes('register')
     return (
         <div>
             {
@@ -14,7 +13,7 @@ const Root = () => {
             }
             <Outlet />
             {
-                noHeaderFooter || <Footer />
+                noHeaderFooter || <Footer /> 
             }
         </div>
     );
