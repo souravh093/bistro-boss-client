@@ -10,7 +10,7 @@ import slider6 from "../../../assets/home/06.png";
 
 const Banner = () => {
   return (
-    <Carousel autoPlay={Boolean}>
+    <Carousel className="flex flex-col text-center" autoPlay={Boolean}>
       <div>
         <img src={slider1} />
       </div>
