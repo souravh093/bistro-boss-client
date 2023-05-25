@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../Provider/AuthProvider";
 
 const Header = () => {
+  const { logoutUser, user } = useContext(AuthContext);
+  const handleLogout = () => {
+    logoutUser()
+      .then(() => {})
+      .catch(error => console.log(error.message))
+  }
   const navOptions = (
     <>
       <li>
@@ -14,8 +21,21 @@ const Header = () => {
         <Link to="/order/salad">Order Food</Link>
       </li>
       <li>
-        <Link to="/login">Login</Link>
+        <Link to="/secret">Secret</Link>
       </li>
+
+      {user ? (
+        <div className="flex items-center">
+          <button onClick={handleLogout} className="btn btn-ghost">Logout</button>
+          <span>{user?.displayName}</span>
+        </div>
+      ) : (
+        <>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </>
+      )}
     </>
   );
   return (
