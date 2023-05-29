@@ -5,8 +5,11 @@ import {
   AiFillShopping,
   AiOutlineMenu,
   AiOutlineShoppingCart,
+  AiTwotoneBook,
 } from "react-icons/ai";
-import { FaHome, FaWallet } from "react-icons/fa";
+
+import { FaHome, FaUsers, FaWallet } from "react-icons/fa";
+import { ImSpoonKnife } from "react-icons/im";
 import { SlCalender } from "react-icons/sl";
 import { VscPreview } from "react-icons/vsc";
 import { MdEmail } from "react-icons/md";
@@ -14,6 +17,10 @@ import { useCart } from "../../hooks/useCart";
 
 const Dashboard = () => {
   const [cart] = useCart();
+
+  // TODO: load data from the server to have dynamic isaAdmin based on data
+  const isAdmin = true;
+
   return (
     <div className="drawer drawer-mobile">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -35,37 +42,75 @@ const Dashboard = () => {
             <h2 className="text-4xl font-bold">Bistro Boss</h2>
             <p className="font-medium text-3xl">Restaurant</p>
           </div>
-          <li>
-            <NavLink to="/dashboard/home">
-              <FaHome /> User Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/reservation">
-              <SlCalender /> Reservation
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/history">
-              <FaWallet /> Payment History
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/mycart">
-              <AiOutlineShoppingCart /> My Cart
-              <span className="badge badge-sm">{cart.length || 0}</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/review">
-              <VscPreview /> Add Review
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/booking">
-              <AiFillBook /> My Booking
-            </NavLink>
-          </li>
+
+          {isAdmin ? (
+            <>
+              <li>
+                <NavLink to="/dashboard/home">
+                  <FaHome /> Admin Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/reservation">
+                  <ImSpoonKnife /> Add Items
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/history">
+                  <AiOutlineMenu /> Manage Items
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/mycart">
+                  <AiTwotoneBook /> Manage Bookings
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/allusers">
+                  <FaUsers /> All Users
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/">
+                  <AiFillBook /> My Booking
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/dashboard/home">
+                  <FaHome /> User Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/reservation">
+                  <SlCalender /> Reservation
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/history">
+                  <FaWallet /> Payment History
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/mycart">
+                  <AiOutlineShoppingCart /> My Cart
+                  <span className="badge badge-sm">{cart.length || 0}</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/review">
+                  <VscPreview /> Add Review
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/booking">
+                  <AiFillBook /> My Booking
+                </NavLink>
+              </li>
+            </>
+          )}
 
           <div className="divider"></div>
 

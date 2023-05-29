@@ -1,15 +1,19 @@
 import React, { useContext } from "react";
 import googleLogo from "../../assets/icon/google.svg";
 import githubLogo from "../../assets/icon/github.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 
 const Register = () => {
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, googleSignInUser } =
+    useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -20,14 +24,24 @@ const Register = () => {
   const onSubmit = (data) => {
     createUser(data.email, data.password).then((result) => {
       console.log(result.user);
-      updateUserProfile(data.name, data.url)
-        .then(() => {
-          console.log("Profile update");
-          reset();
+      updateUserProfile(data.name, data.url).then(() => {
+        const saveUser = { name: data.name, email: data.email };
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(saveUser),
         })
-        .catch((error) => console.log(error.message));
-      Swal.fire("Good job!", "Successfully Register", "success");
-      navigate('/')
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              reset();
+              Swal.fire("Good job!", "Successfully Register", "success");
+              navigate("/");
+            }
+          });
+      });
     });
   };
 
@@ -148,7 +162,34 @@ const Register = () => {
             <div className="border-t border-gray-300 w-full" />
           </div>
           <div className="flex justify-center mt-6 space-x-4">
-            <button className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button
+              onClick={() => {
+                googleSignInUser()
+                  .then((result) => {
+                    const loggedUser = result.user;
+                    const saveUser = {
+                      name: loggedUser.displayName,
+                      email: loggedUser.email,
+                    };
+                    console.log(loggedUser);
+                    fetch("http://localhost:5000/users", {
+                      method: "POST",
+                      headers: {
+                        "content-type": "application/json",
+                      },
+                      body: JSON.stringify(saveUser),
+                    })
+                      .then((res) => res.json())
+                      .then(() => {
+                        navigate(from, { replace: true });
+                      });
+                  })
+                  .catch((error) => {
+                    Swal.fire(` ${error.message}, "sorry"`);
+                  });
+              }}
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
               <img src={googleLogo} alt="" />
             </button>
             <button className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400">
