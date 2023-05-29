@@ -27,7 +27,7 @@ const Header = () => {
         <Link to="/secret">Secret</Link>
       </li>
       <li>
-        <Link to="/">
+        <Link to="dashboard/mycart">
           <label className="btn btn-ghost btn-circle">
             <div className="indicator">
               <svg
