@@ -43,7 +43,7 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         Swal.fire("Good job!", "Successfully Login", "success");
-        navigate(from, {replace: true})
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         Swal.fire(` ${error.message}, "sorry"`);
@@ -149,17 +149,33 @@ const Login = () => {
             <div className="border-t border-gray-300 w-full" />
           </div>
           <div className="flex justify-center mt-6 space-x-4">
-            <button onClick={() => {
-              googleSignInUser()
-                .then(result => {
-                  console.log(result.user);
-                  Swal.fire("Good job!", "Successfully Login with Google", "success");
-                  navigate(from, {replace: true})
-                })
-                .catch(error => {
-                  Swal.fire(` ${error.message}, "sorry"`);
-                })
-            }} className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button
+              onClick={() => {
+                googleSignInUser()
+                  .then((result) => {
+                    const loggedUser = result.user;
+                    const saveUser = {
+                      name: loggedUser.displayName,
+                      email: loggedUser.email,
+                    }; 
+                    fetch("http://localhost:5000/users", {
+                      method: "POST",
+                      headers: {
+                        "content-type": "application/json",
+                      },
+                      body: JSON.stringify(saveUser),
+                    })
+                      .then((res) => res.json())
+                      .then(() => {
+                        navigate(from, { replace: true });
+                      });
+                  })
+                  .catch((error) => {
+                    Swal.fire(` ${error.message}, "sorry"`);
+                  });
+              }}
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
               <img src={googleLogo} alt="" />
             </button>
             <button className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400">

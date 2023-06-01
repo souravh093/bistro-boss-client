@@ -3,6 +3,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { FaTrash, FaUserShield } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const AllUsers = () => {
   const { data: users = [], refetch } = useQuery(["users"], async () => {
@@ -11,14 +12,35 @@ const AllUsers = () => {
   });
 
   const handleDelete = (id) => {
-    console.log(id);
+    fetch(`http://localhost:5000/users/${id}`, {
+      method: "DELETE"
+    })
+      .then(res => res.json())
+      .then(data => {
+        refetch()
+        console.log(data)
+      })
   };
 
-  const handleMakeAdmin = (id) => {
-    console.log(id)
-  }
+  const handleMakeAdmin = (user) => {
+    fetch(`http://localhost:5000/users/admin/${user._id}`, {
+      method: "PATCH",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount) {
+          refetch();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `${user.name} is an Admin Now!`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+  };
 
-  
   return (
     <div className="w-full bg-gray-100 min-h-screen">
       <Helmet>
@@ -52,7 +74,7 @@ const AllUsers = () => {
                           "admin"
                         ) : (
                           <button
-                            onClick={() => handleMakeAdmin(_id)}
+                            onClick={() => handleMakeAdmin(user)}
                             className="btn btn-warning text-white btn-xs"
                           >
                             <FaUserShield />
