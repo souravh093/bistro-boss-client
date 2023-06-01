@@ -4,22 +4,24 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { FaTrash, FaUserShield } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiousSecure";
 
 const AllUsers = () => {
+  const [axiosSecure] = useAxiosSecure();
   const { data: users = [], refetch } = useQuery(["users"], async () => {
-    const res = await fetch("http://localhost:5000/users");
-    return res.json();
+    const res = await axiosSecure.get("/users");
+    return res.data;
   });
 
   const handleDelete = (id) => {
     fetch(`http://localhost:5000/users/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     })
-      .then(res => res.json())
-      .then(data => {
-        refetch()
-        console.log(data)
-      })
+      .then((res) => res.json())
+      .then((data) => {
+        refetch();
+        console.log(data);
+      });
   };
 
   const handleMakeAdmin = (user) => {

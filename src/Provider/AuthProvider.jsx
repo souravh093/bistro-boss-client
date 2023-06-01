@@ -23,13 +23,18 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      if(currentUser) {
-        axios.post('http://localhost:5000/jwt', {email: currentUser.email})
-          .then(data => {
-            console.log(data)
-          })
+
+      if (currentUser) {
+        axios
+          .post("http://localhost:5000/jwt", { email: currentUser.email })
+          .then((data) => {
+            localStorage.setItem("access-token", data.data.token);
+            setLoading(false);
+          });
+      } else {
+        localStorage.removeItem('access-token')
+        setLoading(false);
       }
-      setLoading(false);
     });
     return () => {
       return unsubscribe();
@@ -54,14 +59,14 @@ const AuthProvider = ({ children }) => {
   const updateUserProfile = (name, url) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
-      photoURL: url
-    })
-  }
+      photoURL: url,
+    });
+  };
 
   const logoutUser = () => {
     setLoading(true);
     return signOut(auth);
-  }
+  };
   const authInfo = {
     user,
     loading,
@@ -69,7 +74,7 @@ const AuthProvider = ({ children }) => {
     loginUser,
     googleSignInUser,
     updateUserProfile,
-    logoutUser
+    logoutUser,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

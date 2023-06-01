@@ -14,12 +14,15 @@ import { SlCalender } from "react-icons/sl";
 import { VscPreview } from "react-icons/vsc";
 import { MdEmail } from "react-icons/md";
 import { useCart } from "../../hooks/useCart";
+import { useAdmin } from "../../hooks/useAdmin";
 
 const Dashboard = () => {
   const [cart] = useCart();
 
   // TODO: load data from the server to have dynamic isaAdmin based on data
-  const isAdmin = true;
+  // const isAdmin = true;
+  const [isAdmin] = useAdmin();
+  console.log(isAdmin)
 
   return (
     <div className="drawer drawer-mobile">
@@ -46,12 +49,12 @@ const Dashboard = () => {
           {isAdmin ? (
             <>
               <li>
-                <NavLink to="/dashboard/home">
+                <NavLink to="/dashboard">
                   <FaHome /> Admin Home
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/reservation">
+                <NavLink to="/dashboard/additem">
                   <ImSpoonKnife /> Add Items
                 </NavLink>
               </li>
