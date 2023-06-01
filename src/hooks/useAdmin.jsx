@@ -7,7 +7,7 @@ export const useAdmin = () => {
   const [axiosSecure] = useAxiosSecure();
 
   const { data: isAdmin, isLoading: isAdminLoading } = useQuery({
-    queryKey: ["isAdmin", user?.email],
+    enabled: !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/admin/${user?.email}`);
       return res.data.admin;

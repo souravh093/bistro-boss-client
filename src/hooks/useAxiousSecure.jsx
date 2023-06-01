@@ -23,14 +23,11 @@ const useAxiosSecure = () => {
     axiosSecure.interceptors.response.use(
       (response) => response,
       async (error) => {
-        console.log(error);
         if (
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
         ) {
-          await logoutUser()
-            .then(() => {})
-            .catch((error) => console.log(error.message));
+          await logoutUser();
           navigate("/login");
         }
         return Promise.reject(error);
