@@ -58,7 +58,7 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/history">
+                <NavLink to="/dashboard/manageitems">
                   <AiOutlineMenu /> Manage Items
                 </NavLink>
               </li>
