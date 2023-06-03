@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiousSecure";
 
 const ManageItem = () => {
-  // Question what is mean this comma what it need to index by work
+  // Question what is mean this comma why it need to index by work
   const [menu, , refetch] = useMenu();
   const [axiosSecure] = useAxiosSecure();
 

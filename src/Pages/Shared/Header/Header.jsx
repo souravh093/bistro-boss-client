@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import { useCart } from "../../../hooks/useCart";
+import { useAdmin } from "../../../hooks/useAdmin";
 
 const Header = () => {
   const [cart] = useCart();
+  const [isAdmin] = useAdmin()
   const { logoutUser, user } = useContext(AuthContext);
   const handleLogout = () => {
     logoutUser()
@@ -23,7 +25,7 @@ const Header = () => {
         <Link to="/order/salad">Order Food</Link>
       </li>
       <li>
-        <Link to="/secret">Secret</Link>
+        <Link to={isAdmin ? '/dashboard/adminhome' : '/dashboard/userhome'}>Dashboard</Link>
       </li>
       <li>
         <Link to="dashboard/mycart">
