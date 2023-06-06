@@ -4,6 +4,7 @@ import { useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiousSecure";
 import { useEffect } from "react";
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const CheckoutForm = ({ price, cart }) => {
   console.log(cart);
@@ -86,11 +87,10 @@ const CheckoutForm = ({ price, cart }) => {
         status: "service pending",
         itemName: cart.map((item) => item.name),
       };
-      console.log(payment);
       axiosSecure.post("/payment", payment).then((res) => {
         console.log(res.data);
         if (res.data.insertedId) {
-          // display confirm
+          Swal.fire("Good job!", "You payment successfully", "success");
         }
       });
     }
@@ -138,3 +138,4 @@ const CheckoutForm = ({ price, cart }) => {
 };
 
 export default CheckoutForm;
+
