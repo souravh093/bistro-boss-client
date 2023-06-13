@@ -21,7 +21,7 @@ export const useCart = () => {
 
 // queryFn: async () => {
 //   const response = await fetch(
-//     `http://localhost:5000/carts?email=${user?.email}`, {
+//     `https://bistro-boss-server-neon-iota.vercel.app/carts?email=${user?.email}`, {
 //       headers: {
 //         authorization: `bearer ${token}`
 //       }

@@ -26,7 +26,7 @@ const Register = () => {
       console.log(result.user);
       updateUserProfile(data.name, data.url).then(() => {
         const saveUser = { name: data.name, email: data.email };
-        fetch("http://localhost:5000/users", {
+        fetch("https://bistro-boss-server-neon-iota.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -172,7 +172,7 @@ const Register = () => {
                       email: loggedUser.email,
                     };
                     console.log(loggedUser);
-                    fetch("http://localhost:5000/users", {
+                    fetch("https://bistro-boss-server-neon-iota.vercel.app/users", {
                       method: "POST",
                       headers: {
                         "content-type": "application/json",

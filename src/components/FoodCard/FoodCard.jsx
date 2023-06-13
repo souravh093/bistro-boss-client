@@ -14,7 +14,7 @@ const FoodCard = ({ item }) => {
     const { name, image, price, _id } = item;
     if (user && user.email) {
       const cartItem = { itemId: _id, name, image, price, email: user.email };
-      fetch("http://localhost:5000/carts", {
+      fetch("https://bistro-boss-server-neon-iota.vercel.app/carts", {
         method: "POST",
         headers: {
           "content-type": "application/json",

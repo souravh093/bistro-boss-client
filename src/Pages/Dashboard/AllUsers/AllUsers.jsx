@@ -14,7 +14,7 @@ const AllUsers = () => {
   });
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/users/${id}`, {
+    fetch(`https://bistro-boss-server-neon-iota.vercel.app/users/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -25,7 +25,7 @@ const AllUsers = () => {
   };
 
   const handleMakeAdmin = (user) => {
-    fetch(`http://localhost:5000/users/admin/${user._id}`, {
+    fetch(`https://bistro-boss-server-neon-iota.vercel.app/users/admin/${user._id}`, {
       method: "PATCH",
     })
       .then((res) => res.json())

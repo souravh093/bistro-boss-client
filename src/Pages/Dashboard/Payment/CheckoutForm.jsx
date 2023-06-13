@@ -138,4 +138,3 @@ const CheckoutForm = ({ price, cart }) => {
 };
 
 export default CheckoutForm;
-
